@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Animated Developer Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Three.js (r128 for compatibility) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* Define Inter font and reset default margins */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #0d0d0d; /* Fallback dark background */
+        }
+        /* Custom scrollbar for aesthetics */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #6366f1;
+            border-radius: 4px;
+        }
+
+        /* Canvas MUST be fixed and fill the viewport */
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Puts it behind the main content */
+        }
+
+        /* Enhance text selection and button hover effects */
+        .interactive-btn {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .interactive-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.5); /* glow effect */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#6366f1', // Indigo 500
+                        'dark-bg': '#0d0d0d',
+                        'card-bg': '#1f2937', // Gray 800
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-gray-100 antialiased">
+
+    <!-- Three.js Canvas Container -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Main Content Wrapper -->
+    <div id="content-wrapper" class="relative z-10">
+
+        <!-- Navigation -->
+        <header class="sticky top-0 z-50 bg-dark-bg/90 backdrop-blur-sm shadow-lg">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <a href="#hero" class="text-2xl font-extrabold text-primary-blue hover:text-white transition duration-300">
+                    Atharva Rai
+                </a>
+                <div class="space-x-4 flex">
+                    <a href="#about" class="text-sm font-medium hover:text-primary-blue transition duration-300 rounded-lg p-2">About</a>
+                    <a href="#projects" class="text-sm font-medium hover:text-primary-blue transition duration-300 rounded-lg p-2">Projects</a>
+                    <a href="#contact" class="text-sm font-medium hover:text-primary-blue transition duration-300 rounded-lg p-2">Contact</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 1. Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center text-center p-8">
+            <div class="max-w-4xl space-y-6">
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black leading-tight">
+                    <span class="text-primary-blue block animate-pulse">BUILDING</span>
+                    <span class="text-white block">POWERFUL SYSTEMS</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto">
+                    A <strong>Python Coder</strong> blending cutting-edge security and dynamic AI with reliable, high-performance code.
+                </p>
+                <div class="pt-8">
+                    <a href="#projects" class="interactive-btn inline-block bg-primary-blue text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-indigo-600">
+                        View My Work →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. About Section -->
+        <section id="about" class="py-24 bg-dark-bg/80 backdrop-blur-sm">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-5xl font-extrabold text-center mb-12 text-white">About Atharva</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-lg text-gray-300">
+                        <p>I specialize in building robust, high-performance systems and dynamic AI tools. My passion lies in <strong>Python</strong>, utilizing frameworks for everything from advanced ethical hacking simulations to complex system automation. I bring a security-first mindset to scalable applications.</p>
+                        <p>As a professional coder, I focus on systems that require precision and deep control over the underlying environment, showcased by my work in command-line tools and remote operations.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-card-bg rounded-xl shadow-2xl transition duration-300 hover:scale-[1.02]">
+                            <h3 class="text-primary-blue font-semibold text-xl">Core Expertise: Python</h3>
+                            <p class="text-gray-400">Deep command over Python, system architecture, command-line interfaces (CLI), and automation.</p>
+                        </div>
+                        <div class="p-4 bg-card-bg rounded-xl shadow-2xl transition duration-300 hover:scale-[1.02]">
+                            <h3 class="text-primary-blue font-semibold text-xl">Specialization: AI & Security</h3>
+                            <p class="text-gray-400">Developing intelligent agents, remote control applications, and ethical hacking attack simulations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Projects Section -->
+        <section id="projects" class="py-24">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-5xl font-extrabold text-center mb-16 text-white">Featured Creations</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Project Card 1: Hades (LINK UPDATED HERE) -->
+                    <div class="bg-card-bg rounded-2xl shadow-2xl overflow-hidden interactive-btn p-6 space-y-4">
+                        <div class="text-3xl text-primary-blue mb-2">⚙️</div>
+                        <h3 class="text-2xl font-bold text-white">Hades - Advanced Python CLI Tool</h3>
+                        <p class="text-gray-400">A comprehensive, powerful command-line interface tool, demonstrating deep expertise in Python architecture and system interaction.</p>
+                        <a href="https://atharva2011.github.io/Hades" target="_blank" class="text-primary-blue hover:text-indigo-400 transition duration-200 font-medium inline-block">View Live Site →</a>
+                    </div>
+                    <!-- Project Card 2: AI Assistant -->
+                    <div class="bg-card-bg rounded-2xl shadow-2xl overflow-hidden interactive-btn p-6 space-y-4">
+                         <div class="text-3xl text-primary-blue mb-2">🤖</div>
+                        <h3 class="text-2xl font-bold text-white">AI Assistant (Jarvis) & Remote Control</h3>
+                        <p class="text-gray-400">A dynamic, voice-controlled AI capable of online search, remote computer control, and execution of sophisticated ethical hacking attack simulations.</p>
+                        <a href="#contact" class="text-primary-blue hover:text-indigo-400 transition duration-200 font-medium inline-block">Discuss Project →</a>
+                    </div>
+                    <!-- Project Card 3: General System Architecture -->
+                    <div class="bg-card-bg rounded-2xl shadow-2xl overflow-hidden interactive-btn p-6 space-y-4">
+                         <div class="text-3xl text-primary-blue mb-2">⏣</div>
+                        <h3 class="text-2xl font-bold text-white">Security-Focused Backend Systems</h3>
+                        <p class="text-gray-400">Development of scalable, reliable backend APIs using modern frameworks, prioritizing data integrity and complex authentication flows.</p>
+                        <a href="#contact" class="text-primary-blue hover:text-indigo-400 transition duration-200 font-medium inline-block">Inquire about Details →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Contact Section -->
+        <section id="contact" class="py-24 bg-dark-bg/80 backdrop-blur-sm">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-5xl font-extrabold mb-4 text-white">Let's Connect</h2>
+                <p class="text-xl text-gray-300 mb-10">
+                    Ready to build something visually stunning and highly functional? Drop me a line!
+                </p>
+                <a href="mailto:atharvaraiatl@gmail.com" class="interactive-btn inline-block bg-white text-dark-bg font-bold py-4 px-10 rounded-full text-xl shadow-2xl hover:bg-gray-200">
+                    Email Atharva Rai Today
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 Atharva Rai. Built with Python expertise and Three.js visuals.</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript for Three.js setup and interaction -->
+    <script>
+        // --- Three.js Setup ---
+        const canvas = document.getElementById('three-canvas');
+        const contentWrapper = document.getElementById('content-wrapper');
+        let scene, camera, renderer, particles, mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+        const particleCount = 1000;
+
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera (Perspective)
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 500;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x0d0d0d, 0); // Transparent background (will be covered by body CSS)
+
+            // Particles Geometry
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+            const color = new THREE.Color();
+            
+            // Generate random positions and colors for particles
+            for (let i = 0; i < particleCount; i++) {
+                // Positions
+                const x = Math.random() * 2000 - 1000;
+                const y = Math.random() * 2000 - 1000;
+                const z = Math.random() * 2000 - 1000;
+                positions.push(x, y, z);
+
+                // Colors (random blue/indigo hues)
+                color.setHSL(0.6 + 0.1 * Math.random(), 0.8, 0.5 + 0.3 * Math.random());
+                colors.push(color.r, color.g, color.b);
+            }
+            
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+            // Particles Material
+            const material = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true, // Use colors from geometry
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            // Particles Mesh (Points)
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Event Listeners
+            document.addEventListener('mousemove', onDocumentMouseMove);
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        // --- Event Handlers ---
+        function onDocumentMouseMove(event) {
+            // Map mouse position to -1 to 1 range for smooth movement
+            mouseX = (event.clientX - windowHalfX) * 0.1;
+            mouseY = (event.clientY - windowHalfY) * 0.1;
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Gentle camera movement based on mouse input
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Rotate the particle field slightly over time
+            particles.rotation.y += 0.0005;
+            particles.rotation.x += 0.0002;
+
+            // Render the scene
+            renderer.render(scene, camera);
+        }
+
+        // Start everything when the window loads
+        window.onload = function () {
+            init();
+            animate();
+        };
+
+        // Ensure the content wrapper always has a minimum height to allow scrolling over the 3D effect
+        window.addEventListener('load', () => {
+             // Calculate the height needed to make sure we can scroll over the full 3D scene
+             const totalHeight = contentWrapper.scrollHeight;
+             if (totalHeight < window.innerHeight * 1.5) {
+                // Ensure there's enough scroll space if content is short
+                contentWrapper.style.minHeight = '150vh';
+             }
+        });
+    </script>
+</body>
+</html>
